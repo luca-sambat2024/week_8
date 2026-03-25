@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+# %%
+>>>>>>> 6ec494d (Completed Lab 4)
 
 # ============================================================================
 # Regression Overview — In-Class Live Coding Example
@@ -31,6 +35,7 @@ facebook_metrics = fetch_ucirepo(id=368)
 
 X = facebook_metrics.data.features.copy()
 y = facebook_metrics.data.targets.copy()
+<<<<<<< HEAD
 
 # %%
 X.info()
@@ -39,6 +44,11 @@ X.info()
 # Combine for easier exploration, using concat to keep features and target together
 df = pd.concat([X, y], axis=1)
 df.head()
+=======
+# %%
+# Combine for easier exploration, using concat to keep features and target together
+df = pd.concat([X,y], axis=1)
+>>>>>>> 6ec494d (Completed Lab 4)
 
 # =============================================================================
 # SECTION 1: Kernel Density Plot
@@ -48,6 +58,7 @@ df.head()
 # Use it to understand the shape and spread of a distribution before modeling.
 # %%
 # The raw distribution is heavily right-skewed — a common problem in regression.
+<<<<<<< HEAD
 df["Total Interactions"].plot.kde(color='steelblue')
 plt.title('Kernel Density Plot of Total Interactions')
 
@@ -56,6 +67,14 @@ plt.title('Kernel Density Plot of Total Interactions')
 # Let's also look at Page total likes
 df["Page total likes"].plot.kde(color='coral')
 plt.title('Kernel Density Plot of Page Total Likes')
+=======
+df["Total Interactions"].plot.kde(color="navy")
+plt.title("KDE of Total Interactions (Density)")
+# %%
+
+# Let's also look at Page total likes
+df["Page total likes"].plot.kde(color="navy")
+>>>>>>> 6ec494d (Completed Lab 4)
 
 # KEY POINT: Skewed distributions can violate regression assumptions.
 # We'll address this with log/arcsinh transformations in Section 5.
@@ -70,15 +89,23 @@ plt.title('Kernel Density Plot of Page Total Likes')
 # %%
 
 # Value counts
+<<<<<<< HEAD
 print(df['Type'].value_counts())
 print(df['Category'].value_counts())
 
+=======
+print(df.value_counts())
+>>>>>>> 6ec494d (Completed Lab 4)
 
 # %%
 # One-hot encode 'Type' and 'Category' (creates new columns for each level), 
 # replace in the df, using pandas's get_dummies, four attributes, df, columns to encode, 
 # drop_first=True to avoid dummy variable trap, and prefix to add a prefix to the new columns
+<<<<<<< HEAD
 df = pd.get_dummies(df, columns=['Type', 'Category'], drop_first=True, prefix=['Ty', 'Cat'])
+=======
+df = pd.get_dummies(data=df, columns=["Type","Category"], drop_first=True, prefix="1h_")
+>>>>>>> 6ec494d (Completed Lab 4)
                 
 
 # =============================================================================
@@ -93,19 +120,34 @@ df = pd.get_dummies(df, columns=['Type', 'Category'], drop_first=True, prefix=['
 df.info()
 
 # %%
+<<<<<<< HEAD
 # Simple example: predict Total Interactions from Page total likes, convert to numpy arrays, dropna to remove missing values
 X_simple = df['Page total likes'].values.reshape(-1, 1)  # sklearn expects 2D array for features
 y_target = df["Total Interactions"]
+=======
+# Simple example: predict Total Interactions from Page total likes
+X_simple = df['Page total likes'].values.reshape(-1,1)
+y_target = df['Total Interactions'].values
+>>>>>>> 6ec494d (Completed Lab 4)
 
 # %%
 
 # With intercept (default), fit.intercept=true/false, (then).fit
+<<<<<<< HEAD
 model_with = LinearRegression(fit_intercept=True).fit(X_simple, y_target)
 # Without intercept
 model_without = LinearRegression(fit_intercept=False).fit(X_simple, y_target)
 
 # %%
 print(dir(model_with))
+=======
+model_with = LinearRegression(fit_intercept=True).fit(X_simple,y_target)
+# Without intercept
+model_without = LinearRegression(fit_intercept=False).fit(X_simple,y_target)
+
+print(f"Coefficient={model_with.coef_[0]:.4f}, intercept={model_with.intercept_:.4f}")
+print(f"Coefficient={model_without.coef_[0]:.4f}, intercept={model_without.intercept_:.4f}")
+>>>>>>> 6ec494d (Completed Lab 4)
 
 # %%
 print(f"With Intercept: Coefficient = {model_with.coef_[0]:.4f}, Intercept = {model_with.intercept_:.2f}, R² = {model_with.score(X_simple, y_target):.4f}")
@@ -116,7 +158,7 @@ print(f"Without Intercept: Coefficient = {model_without.coef_[0]:.4f}, R² = {mo
 # %%
 # KEY POINT: Unless your domain knowledge justifies it, always keep the intercept.
 # Forcing through the origin biases the slope estimate when y != 0 at x=0.
-
+ # %%
 # =============================================================================
 # SECTION 4: Multivariate Regression
 # =============================================================================
@@ -138,12 +180,25 @@ corr_matrix = numeric_features.corr('pearson')
 corr_with_target = corr_matrix['Total Interactions'].abs().sort_values(ascending=False)
 
 # %%
+<<<<<<< HEAD
 corr_with_target.head()
 
 # %%
 # select some kinda middle of the road features
 mlr_features = corr_with_target[5:11].index.tolist()  # Exclude the target variable itself   
 
+=======
+# select some kinda middle of the road features
+numeric_features = corr_with_target[5:11].index.tolist()  # Exclude the target variable itself   
+
+# %%
+# visualize the correlations with a matrix plot
+plt.figure(figsize=(8, 6))
+sns.heatmap(corr_matrix[numeric_features + ['Total Interactions']], annot=True, cmap='coolwarm', center=0)
+plt.title('Correlation Matrix')
+plt.show()
+
+>>>>>>> 6ec494d (Completed Lab 4)
 # now you try pick some real terrible variables and see what happens
 
 # %%
